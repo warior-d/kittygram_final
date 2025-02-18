@@ -1,0 +1,41 @@
+version: '3'
+
+volumes:
+  pg_data_production:
+  static_prod:
+
+services:
+
+  db:
+    image: postgres:13.10
+    env_file: .env
+    volumes:
+      - pg_data_production:/var/lib/postgresql/data
+
+  backend:
+    image: wariord1/kittygram_backend
+    env_file: .env
+    depends_on:
+      - db
+    volumes:
+      - static_prod:/backend_static/
+# docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
+# docker compose -f docker-compose.production.yml exec backend cp -r /app/collected_static/. /backend_static/static/
+  frontend:
+    image: wariord1/kittygram_frontend
+    env_file: .env
+    command: cp -r /app/build/. /frontend_static/
+    volumes:
+      - static_prod:/frontend_static
+    depends_on:
+      - backend
+
+  gateway:
+    image: wariord1/kittygram_gateway 
+    env_file: .env
+    depends_on:
+      - frontend
+    volumes:
+      - static_prod:/staticfiles/
+    ports:
+      - 9000:80
