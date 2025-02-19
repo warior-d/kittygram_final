@@ -19,8 +19,6 @@ services:
       - db
     volumes:
       - static_prod:/backend_static/
-# docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
-# docker compose -f docker-compose.production.yml exec backend cp -r /app/collected_static/. /backend_static/static/
   frontend:
     image: wariord1/kittygram_frontend
     env_file: .env
