@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'say_no')
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['84.201.160.84', 'ohmygoh.duckdns.org', 'localhost', '127.0.0.1']
 
